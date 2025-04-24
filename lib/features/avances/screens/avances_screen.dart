@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import '../../../core/constants/supabase_constants.dart';
+import '../../../core/widgets/app_bottom_nav_bar.dart';
 import 'dart:developer' as developer;
 
 class AvancesScreen extends StatefulWidget {
@@ -120,7 +121,17 @@ class _AvancesScreenState extends State<AvancesScreen> {
       appBar: AppBar(
         leading: IconButton(
           icon: const Icon(Icons.arrow_back, color: Colors.black),
-          onPressed: () => Navigator.of(context).pop(),
+          onPressed: () {
+            if (_effectiveUserId != null) {
+              Navigator.pushReplacementNamed(
+                context, 
+                '/registros',
+                arguments: _effectiveUserId,
+              );
+            } else {
+              Navigator.pushReplacementNamed(context, '/login');
+            }
+          },
         ),
         title: const Text(
           'Avances',
@@ -172,20 +183,62 @@ class _AvancesScreenState extends State<AvancesScreen> {
                               final nombre = microempresario['nombre'] ?? 'Sin nombre';
                               final cantidadLecciones = microempresario['cantidad_lecciones'] ?? 0;
                               
-                              return Padding(
-                                padding: const EdgeInsets.only(bottom: 8),
-                                child: EstudianteAvanceCard(
-                                  nombre: nombre,
-                                  leccionesCompletadas: cantidadLecciones,
-                                  totalLecciones: 20,
-                                ),
+                              return Column(
+                                children: [
+                                  EstudianteAvanceCard(
+                                    nombre: nombre,
+                                    leccionesCompletadas: cantidadLecciones,
+                                    totalLecciones: 20,
+                                  ),
+                                  // Añadir espacio entre elementos, excepto después del último
+                                  if (index < microempresarios.length - 1)
+                                    const SizedBox(height: 8),
+                                ],
                               );
                             },
                           ),
           ),
         ],
       ),
+      bottomNavigationBar: AppBottomNavBar(
+        currentIndex: 1, // Índice 1 corresponde a "Avances"
+        onTap: _handleNavBarTap,
+        onAddPressed: _handleAddPressed,
+      ),
     );
+  }
+  
+  void _handleNavBarTap(int index) {
+    switch (index) {
+      case 0:
+        // Ir a la pantalla de inicio (registros)
+        if (_effectiveUserId != null) {
+          Navigator.pushReplacementNamed(
+            context, 
+            '/registros',
+            arguments: _effectiveUserId,
+          );
+        } else {
+          // Si no hay ID de usuario, ir al login
+          Navigator.pushReplacementNamed(context, '/login');
+        }
+        break;
+      case 1:
+        // Ya estamos en avances, no hacer nada
+        break;
+      case 2:
+        // Ir a historial
+        Navigator.pushReplacementNamed(context, '/historial');
+        break;
+      case 3:
+        // Ir a perfil
+        Navigator.pushReplacementNamed(context, '/perfil');
+        break;
+    }
+  }
+  
+  void _handleAddPressed() {
+    Navigator.pushNamed(context, '/microempresas');
   }
 }
 
