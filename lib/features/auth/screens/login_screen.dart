@@ -59,13 +59,8 @@ class _LoginScreenState extends State<LoginScreen> {
       if (mounted) {
         if (response != null) {
           developer.log('Login exitoso. ID de usuario: ${response['id_usuario']}');
-          // Navegar a la pantalla de registro de microempresarios
-          Navigator.pushReplacement(
-            context,
-            MaterialPageRoute(
-              builder: (context) => RegisterScreen(userId: response['id_usuario']),
-            ),
-          );
+          // Navegar a la pantalla de inicio en lugar de la de registro
+          Navigator.pushReplacementNamed(context, '/home');
         }
       }
     } catch (e) {
