@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'dart:developer' as developer;
+import 'ine_scanner_screen.dart';
 
 class MicroempresarioRegisterScreen extends StatefulWidget {
   final int userId;
@@ -162,15 +163,20 @@ class _MicroempresarioRegisterScreenState extends State<MicroempresarioRegisterS
                     ),
                   ),
                   const SizedBox(height: 24),
-                  _buildTextField(
-                    'Nombre',
-                    controller: _nombreController,
-                    validator: (value) {
-                      if (value?.isEmpty ?? true) {
-                        return 'Por favor ingresa el nombre';
-                      }
-                      return null;
-                    },
+                  Stack(
+                    children: [
+                      _buildTextField(
+                        'Nombre',
+                        controller: _nombreController,
+                        validator: (value) {
+                          if (value?.isEmpty ?? true) {
+                            return 'Por favor ingresa el nombre';
+                          }
+                          return null;
+                        },
+                        showCameraIcon: true,
+                      ),
+                    ],
                   ),
                   const SizedBox(height: 16),
                   _buildTextField(
@@ -315,6 +321,7 @@ class _MicroempresarioRegisterScreenState extends State<MicroempresarioRegisterS
     bool isPassword = false,
     TextInputType? keyboardType,
     int? maxLength,
+    bool showCameraIcon = false,
   }) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -346,9 +353,31 @@ class _MicroempresarioRegisterScreenState extends State<MicroempresarioRegisterS
               vertical: 12,
             ),
             counterText: '',
+            suffixIcon: showCameraIcon
+                ? IconButton(
+                    icon: const Icon(Icons.photo_camera, color: Colors.blue),
+                    onPressed: () => _navigateToINEScanner(),
+                  )
+                : null,
           ),
         ),
       ],
+    );
+  }
+
+  void _navigateToINEScanner() async {
+    await Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => INEScannerScreen(
+          onINEDataExtracted: (Map<String, String> ineData) {
+            _nombreController.text = ineData['nombre'] ?? '';
+            _apellido1Controller.text = ineData['apellido1'] ?? '';
+            _apellido2Controller.text = ineData['apellido2'] ?? '';
+            _cpostalController.text = ineData['codigoPostal'] ?? '';
+          },
+        ),
+      ),
     );
   }
 

@@ -21,7 +21,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'CoppelEmprende',
       theme: AppTheme.lightTheme,
-      initialRoute: AppRoutes.initial,
+      initialRoute: AppRoutes.initial,  
       routes: AppRoutes.getRoutes(),
       debugShowCheckedModeBanner: false,
     );
