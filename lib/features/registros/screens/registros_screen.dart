@@ -131,10 +131,18 @@ class _RegistrosScreenState extends State<RegistrosScreen> {
           );
           break;
         case 2:
-          Navigator.pushReplacementNamed(context, '/historial');
+          Navigator.pushReplacementNamed(
+            context, 
+            '/historial',
+            arguments: widget.userId,
+          );
           break;
         case 3:
-          Navigator.pushReplacementNamed(context, '/perfil');
+          Navigator.pushReplacementNamed(
+            context, 
+            '/perfil',
+            arguments: widget.userId,
+          );
           break;
       }
     }

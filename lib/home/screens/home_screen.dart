@@ -62,10 +62,18 @@ class _HomeScreenState extends State<HomeScreen> {
           );
           break;
         case 2:
-          Navigator.pushReplacementNamed(context, '/historial');
+          Navigator.pushReplacementNamed(
+            context, 
+            '/historial',
+            arguments: userId,
+          );
           break;
         case 3:
-          Navigator.pushReplacementNamed(context, '/perfil');
+          Navigator.pushReplacementNamed(
+            context, 
+            '/perfil',
+            arguments: userId,
+          );
           break;
         default:
           setState(() {

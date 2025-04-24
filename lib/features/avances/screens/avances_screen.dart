@@ -228,11 +228,27 @@ class _AvancesScreenState extends State<AvancesScreen> {
         break;
       case 2:
         // Ir a historial
-        Navigator.pushReplacementNamed(context, '/historial');
+        if (_effectiveUserId != null) {
+          Navigator.pushReplacementNamed(
+            context, 
+            '/historial',
+            arguments: _effectiveUserId,
+          );
+        } else {
+          Navigator.pushReplacementNamed(context, '/login');
+        }
         break;
       case 3:
         // Ir a perfil
-        Navigator.pushReplacementNamed(context, '/perfil');
+        if (_effectiveUserId != null) {
+          Navigator.pushReplacementNamed(
+            context, 
+            '/perfil',
+            arguments: _effectiveUserId,
+          );
+        } else {
+          Navigator.pushReplacementNamed(context, '/login');
+        }
         break;
     }
   }

@@ -7,6 +7,8 @@ import '../features/avances/screens/avances_screen.dart';
 import '../features/registros/screens/registros_screen.dart';
 import '../features/micro_empresarios/screens/microempresario_register_screen.dart';
 import '../features/micro_empresarios/screens/ine_scanner_screen.dart';
+import '../features/historial/screens/historial_screen.dart';
+import '../features/perfil/screens/perfil_screen.dart';
 
 class AppRoutes {
   static const String initial = '/login';
@@ -49,6 +51,16 @@ class AppRoutes {
         // Obtener el userId de los argumentos si está disponible
         final userId = ModalRoute.of(context)?.settings.arguments as int?;
         return AvancesScreen(userId: userId);
+      },
+      historial: (context) {
+        // Obtener el userId de los argumentos si está disponible
+        final userId = ModalRoute.of(context)?.settings.arguments as int?;
+        return HistorialScreen(userId: userId);
+      },
+      perfil: (context) {
+        // Obtener el userId de los argumentos si está disponible
+        final userId = ModalRoute.of(context)?.settings.arguments as int?;
+        return PerfilScreen(userId: userId);
       },
     };
   }
