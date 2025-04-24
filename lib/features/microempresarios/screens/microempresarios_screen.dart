@@ -1,70 +1,59 @@
 import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import '../../../core/constants/supabase_constants.dart';
-import '../widgets/collaborator_card.dart';
+import '../widgets/microempresario_card.dart';
 import '../../../routes/app_routes.dart';
 import 'dart:developer' as developer;
 
-class CollaboratorsScreen extends StatefulWidget {
-  const CollaboratorsScreen({super.key});
+class MicroempresariosScreen extends StatefulWidget {
+  const MicroempresariosScreen({super.key});
 
   @override
-  State<CollaboratorsScreen> createState() => _CollaboratorsScreenState();
+  State<MicroempresariosScreen> createState() => _MicroempresariosScreenState();
 }
 
-class _CollaboratorsScreenState extends State<CollaboratorsScreen> {
+class _MicroempresariosScreenState extends State<MicroempresariosScreen> {
   bool isLoading = true;
-  List<Map<String, dynamic>> collaborators = [];
+  List<Map<String, dynamic>> microempresarios = [];
   String? errorMessage;
   String searchQuery = '';
 
   @override
   void initState() {
     super.initState();
-    _loadCollaborators();
+    _loadMicroempresarios();
   }
 
-  Future<void> _loadCollaborators() async {
+  Future<void> _loadMicroempresarios() async {
     try {
-      developer.log('Cargando colaboradores desde la base de datos');
+      developer.log('Cargando microempresarios desde la base de datos');
       
       final response = await supabase
-          .from('usuario')
-          .select('id_usuario, nombre, apellido, usuario');
+          .from('microempresario')
+          .select('id_microempresario, nombre, apellido1, apellido2, cantidad_lecciones');
       
       developer.log('Respuesta de Supabase: $response');
       
-      // Para cada usuario, obtener el número de registros
-      final List<Map<String, dynamic>> processedCollaborators = [];
+      // Procesar los datos para mostrarlos en la UI
+      final List<Map<String, dynamic>> processedMicroempresarios = [];
       
-      for (final usuario in response) {
-        try {
-          // Obtener conteo de registros para este usuario
-          final registrosResponse = await supabase
-              .from('microempresario')
-              .select()
-              .eq('id_usuario_registro', usuario['id_usuario']);
-          
-          final totalRegistros = registrosResponse.length;
-          
-          processedCollaborators.add({
-            'id': usuario['id_usuario'],
-            'name': '${usuario['nombre'] ?? ''} ${usuario['apellido'] ?? ''}',
-            'registros': totalRegistros.toString(),
-            'puntos': '157',
-            'puntosCanjeadas': '50',
-          });
-        } catch (e) {
-          developer.log('Error al procesar usuario: $e', error: e);
-        }
+      for (final microempresario in response) {
+        processedMicroempresarios.add({
+          'id': microempresario['id_microempresario'],
+          'name': '${microempresario['nombre'] ?? ''} ${microempresario['apellido1'] ?? ''} ${microempresario['apellido2'] ?? ''}',
+          'lecciones': microempresario['cantidad_lecciones']?.toString() ?? '0',
+          'webinar': '5',
+          'llavesCanjeadas': '50',
+          'horasSemana': '6',
+        });
       }
       
       setState(() {
-        collaborators = processedCollaborators;
+        microempresarios = processedMicroempresarios;
         isLoading = false;
       });
     } catch (e) {
-      developer.log('Error al cargar colaboradores: $e', error: e);
+      developer.log('Error al cargar microempresarios: $e', error: e);
       setState(() {
         errorMessage = 'Error al cargar los datos: $e';
         isLoading = false;
@@ -78,13 +67,13 @@ class _CollaboratorsScreenState extends State<CollaboratorsScreen> {
     });
   }
 
-  List<Map<String, dynamic>> get filteredCollaborators {
+  List<Map<String, dynamic>> get filteredMicroempresarios {
     if (searchQuery.isEmpty) {
-      return collaborators;
+      return microempresarios;
     }
     
-    return collaborators.where((collaborator) {
-      return collaborator['name'].toLowerCase().contains(searchQuery);
+    return microempresarios.where((microempresario) {
+      return microempresario['name'].toLowerCase().contains(searchQuery);
     }).toList();
   }
 
@@ -107,10 +96,10 @@ class _CollaboratorsScreenState extends State<CollaboratorsScreen> {
         ),
       ),
       onSelected: (bool value) {
-        if (label == 'Microempresario' && !isSelected) {
+        if (label == 'Colaborador de Coppel' && !isSelected) {
           Navigator.pushReplacementNamed(
             context,
-            AppRoutes.microempresarios,
+            AppRoutes.collaborators,
           );
         }
       },
@@ -161,13 +150,13 @@ class _CollaboratorsScreenState extends State<CollaboratorsScreen> {
             // Filtros
             Row(
               children: [
-                buildFilterChip('Colaborador de Coppel', true),
+                buildFilterChip('Colaborador de Coppel', false),
                 const SizedBox(width: 8),
-                buildFilterChip('Microempresario', false),
+                buildFilterChip('Microempresario', true),
               ],
             ),
             const SizedBox(height: 16),
-            // Lista de colaboradores
+            // Lista de microempresarios
             Expanded(
               child: isLoading
                 ? const Center(child: CircularProgressIndicator())
@@ -179,8 +168,8 @@ class _CollaboratorsScreenState extends State<CollaboratorsScreen> {
                         borderRadius: BorderRadius.circular(12),
                       ),
                       padding: const EdgeInsets.all(16),
-                      child: filteredCollaborators.isEmpty
-                          ? const Center(child: Text('No se encontraron colaboradores'))
+                      child: filteredMicroempresarios.isEmpty
+                          ? const Center(child: Text('No se encontraron microempresarios'))
                           : LayoutBuilder(
                               builder: (context, constraints) {
                                 final crossAxisCount = constraints.maxWidth > 1200 
@@ -198,14 +187,15 @@ class _CollaboratorsScreenState extends State<CollaboratorsScreen> {
                                     crossAxisSpacing: 8,
                                     mainAxisSpacing: 8,
                                   ),
-                                  itemCount: filteredCollaborators.length,
+                                  itemCount: filteredMicroempresarios.length,
                                   itemBuilder: (context, index) {
-                                    final collaborator = filteredCollaborators[index];
-                                    return CollaboratorCard(
-                                      name: collaborator['name'],
-                                      registros: collaborator['registros'],
-                                      puntos: collaborator['puntos'],
-                                      puntosCanjeadas: collaborator['puntosCanjeadas'],
+                                    final microempresario = filteredMicroempresarios[index];
+                                    return MicroempresarioCard(
+                                      name: microempresario['name'],
+                                      lecciones: microempresario['lecciones'],
+                                      webinar: microempresario['webinar'],
+                                      llavesCanjeadas: microempresario['llavesCanjeadas'],
+                                      horasSemana: microempresario['horasSemana'],
                                     );
                                   },
                                 );

@@ -23,9 +23,9 @@ class MyApp extends StatelessWidget {
       theme: AppTheme.lightTheme,
       // Configuración de la ruta inicial
       // Para usar la pantalla de carga original, descomentar la siguiente línea:
-      // initialRoute: AppRoutes.splash,
+       initialRoute: AppRoutes.splash,
       // Para usar la pantalla de login alternativa:
-      initialRoute: AppRoutes.loginAlternativo,
+      //initialRoute: AppRoutes.loginAlternativo,
       routes: AppRoutes.getRoutes(),
       debugShowCheckedModeBanner: false,
     );

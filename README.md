@@ -1,16 +1,106 @@
-# coppelemprende
+# CoppelEmprende
 
-A new Flutter project.
+Aplicación móvil y web para la gestión y seguimiento de microempresarios por parte de los colaboradores de Coppel.
 
-## Getting Started
+## Descripción
 
-This project is a starting point for a Flutter application.
+CoppelEmprende es una plataforma destinada a facilitar el registro, seguimiento y gestión de microempresarios por parte de los colaboradores de Coppel. La aplicación permite:
 
-A few resources to get you started if this is your first Flutter project:
+- Autenticación de colaboradores
+- Registro de microempresarios
+- Seguimiento del progreso de los microempresarios
+- Sistema de puntos y recompensas
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+## Tecnologías
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+- **Flutter**: Framework de UI para desarrollo multiplataforma
+- **Dart**: Lenguaje de programación
+- **Supabase**: Backend as a Service para autenticación y base de datos
+- **Material Design**: Guía de diseño para la interfaz de usuario
+
+## Requisitos
+
+- Flutter SDK (versión 3.7.2 o superior)
+- Dart SDK (versión 3.7.2 o superior)
+- Cuenta en Supabase
+- Editor de código (recomendado: VS Code o Android Studio)
+
+## Instalación
+
+1. Clona este repositorio:
+   ```bash
+   git clone https://github.com/winouwu/coppel_emprende.git
+   cd coppelemprende
+   ```
+
+2. Instala las dependencias:
+   ```bash
+   flutter pub get
+   ```
+
+3. Configura tu proyecto de Supabase:
+   - Crea un proyecto en [Supabase](https://supabase.io/)
+   - Copia las credenciales de tu proyecto (URL y clave anónima)
+   - Crea un archivo `lib/core/constants/supabase_constants.dart` con las siguientes constantes:
+     ```dart
+     import 'package:supabase_flutter/supabase_flutter.dart';
+
+     final supabase = Supabase.instance.client;
+  static const String supabaseUrl = "https://pnrddyhxrrsazzxupotf.supabase.co";
+  static const String supabaseAnonKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBucmRkeWh4cnJzYXp6eHVwb3RmIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDQ5MTUyNTUsImV4cCI6MjA2MDQ5MTI1NX0.YsmGhV1PdcjdA7Oa93YilTWASYHvoYvnd_KMpSTSUiI";
+} 
+     ```
+
+4. Ejecuta la aplicación:
+   ```bash
+   flutter run
+   ```
+
+## Estructura del Proyecto
+
+```
+lib/
+├── core/               # Componentes principales
+│   ├── constants/      # Constantes de la aplicación
+│   ├── supabase/       # Cliente y configuración de Supabase
+│   └── theme/          # Tema de la aplicación
+├── features/           # Características principales
+│   ├── auth/           # Autenticación
+│   ├── collaborators/  # Gestión de colaboradores
+│   ├── microempresarios/ # Gestión de microempresarios
+│   ├── registros/      # Registros de microempresarios
+│   └── ...
+├── home/               # Pantalla principal
+├── routes/             # Configuración de rutas
+└── main.dart           # Punto de entrada de la aplicación
+```
+
+## Características Principales
+
+### Autenticación
+- Inicio de sesión para colaboradores
+- Verificación de tipo de usuario
+
+### Colaboradores
+- Vista de listado de colaboradores
+- Filtrado y búsqueda
+- Métricas de desempeño (registros, puntos)
+
+### Microempresarios
+- Registro de nuevos microempresarios
+- Seguimiento de progreso
+- Gestión de lecciones completadas y webinars
+
+
+
+## Contribución
+
+Para contribuir al proyecto:
+
+1. Crea un fork del repositorio
+2. Crea una rama para tu característica (`git checkout -b feature/amazing-feature`)
+3. Realiza tus cambios y haz commit (`git commit -m 'Add some amazing feature'`)
+4. Haz push a la rama (`git push origin feature/amazing-feature`)
+5. Abre un Pull Request
+
+

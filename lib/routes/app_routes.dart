@@ -12,6 +12,7 @@ import '../features/perfil/screens/perfil_screen.dart';
 import '../features/splash/screens/splash_screen.dart';
 import '../features/auth/screens/login_alternativo_screen.dart';
 import '../features/collaborators/screens/collaborators_screen.dart';
+import '../features/microempresarios/screens/microempresarios_screen.dart';
 
 class AppRoutes {
   static const String splash = '/splash';
@@ -72,6 +73,7 @@ class AppRoutes {
       },
       loginAlternativo: (context) => const LoginAlternativoScreen(),
       collaborators: (context) => const CollaboratorsScreen(),
+      microempresarios: (context) => const MicroempresariosScreen(),
     };
   }
 } 
