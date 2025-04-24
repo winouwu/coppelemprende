@@ -21,7 +21,11 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'CoppelEmprende',
       theme: AppTheme.lightTheme,
-      initialRoute: AppRoutes.initial,  
+      // Configuración de la ruta inicial
+      // Para usar la pantalla de carga original, descomentar la siguiente línea:
+      // initialRoute: AppRoutes.splash,
+      // Para usar la pantalla de login alternativa:
+      initialRoute: AppRoutes.loginAlternativo,
       routes: AppRoutes.getRoutes(),
       debugShowCheckedModeBanner: false,
     );

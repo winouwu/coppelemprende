@@ -9,9 +9,12 @@ import '../features/micro_empresarios/screens/microempresario_register_screen.da
 import '../features/micro_empresarios/screens/ine_scanner_screen.dart';
 import '../features/historial/screens/historial_screen.dart';
 import '../features/perfil/screens/perfil_screen.dart';
+import '../features/splash/screens/splash_screen.dart';
+import '../features/auth/screens/login_alternativo_screen.dart';
 
 class AppRoutes {
-  static const String initial = '/login';
+  static const String splash = '/splash';
+  static const String initial = splash;
   static const String login = '/login';
   static const String register = '/register';
   static const String home = '/home';
@@ -22,9 +25,11 @@ class AppRoutes {
   static const String avances = '/avances';
   static const String historial = '/historial';
   static const String perfil = '/perfil';
+  static const String loginAlternativo = '/login_alternativo';
 
   static Map<String, WidgetBuilder> getRoutes() {
     return {
+      splash: (context) => const SplashScreen(),
       login: (context) => const LoginScreen(),
       register: (context) => const RegisterScreen(userId: 0),
       home: (context) => const HomeScreen(),
@@ -62,6 +67,7 @@ class AppRoutes {
         final userId = ModalRoute.of(context)?.settings.arguments as int?;
         return PerfilScreen(userId: userId);
       },
+      loginAlternativo: (context) => const LoginAlternativoScreen(),
     };
   }
 } 
