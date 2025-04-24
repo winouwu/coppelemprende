@@ -11,6 +11,7 @@ import '../features/historial/screens/historial_screen.dart';
 import '../features/perfil/screens/perfil_screen.dart';
 import '../features/splash/screens/splash_screen.dart';
 import '../features/auth/screens/login_alternativo_screen.dart';
+import '../features/collaborators/screens/collaborators_screen.dart';
 
 class AppRoutes {
   static const String splash = '/splash';
@@ -26,6 +27,8 @@ class AppRoutes {
   static const String historial = '/historial';
   static const String perfil = '/perfil';
   static const String loginAlternativo = '/login_alternativo';
+  static const String collaborators = '/collaborators';
+  static const String microempresarios = '/microempresarios';
 
   static Map<String, WidgetBuilder> getRoutes() {
     return {
@@ -68,6 +71,7 @@ class AppRoutes {
         return PerfilScreen(userId: userId);
       },
       loginAlternativo: (context) => const LoginAlternativoScreen(),
+      collaborators: (context) => const CollaboratorsScreen(),
     };
   }
 } 

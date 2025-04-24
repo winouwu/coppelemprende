@@ -53,11 +53,10 @@ class _LoginAlternativoScreenState extends State<LoginAlternativoScreen> {
         final userId = response['id_usuario'] as int;
         developer.log('Login exitoso. ID de usuario: $userId');
         
-        // Navegar a la pantalla de registros pasando el ID del usuario
+        // Navegar a la pantalla de colaboradores
         Navigator.pushReplacementNamed(
           context,
-          '/registros',
-          arguments: userId,
+          '/collaborators',
         );
       }
     } catch (e) {
