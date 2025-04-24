@@ -141,7 +141,11 @@ class _RegistrosScreenState extends State<RegistrosScreen> {
   }
 
   void _handleAddPressed() {
-    Navigator.pushNamed(context, '/microempresas');
+    Navigator.pushNamed(
+      context, 
+      '/microempresarioRegister',
+      arguments: widget.userId,
+    );
   }
 
   String _formatearFecha(DateTime fecha) {

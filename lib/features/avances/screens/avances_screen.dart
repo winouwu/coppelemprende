@@ -238,7 +238,20 @@ class _AvancesScreenState extends State<AvancesScreen> {
   }
   
   void _handleAddPressed() {
-    Navigator.pushNamed(context, '/microempresas');
+    if (_effectiveUserId != null) {
+      Navigator.pushNamed(
+        context, 
+        '/microempresarioRegister',
+        arguments: _effectiveUserId,
+      );
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('No se pudo obtener el ID de usuario'),
+          backgroundColor: Colors.red,
+        ),
+      );
+    }
   }
 }
 
