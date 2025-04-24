@@ -124,7 +124,11 @@ class _RegistrosScreenState extends State<RegistrosScreen> {
       // Navegar a otras pantallas según el índice
       switch (index) {
         case 1:
-          Navigator.pushReplacementNamed(context, '/avances');
+          Navigator.pushReplacementNamed(
+            context, 
+            '/avances',
+            arguments: widget.userId, // Pasar el ID del usuario
+          );
           break;
         case 2:
           Navigator.pushReplacementNamed(context, '/historial');

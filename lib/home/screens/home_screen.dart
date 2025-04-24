@@ -10,6 +10,11 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   int _currentIndex = 0;
+  // Agregar el ID del usuario
+  final int? userId;
+  
+  // Constructor que inicializa el userId desde el constructor padre
+  _HomeScreenState() : userId = null;
   
   final List<Widget> _pages = [
     // Página de inicio
@@ -50,7 +55,11 @@ class _HomeScreenState extends State<HomeScreen> {
           Navigator.pushReplacementNamed(context, '/registros');
           break;
         case 1:
-          Navigator.pushReplacementNamed(context, '/avances');
+          Navigator.pushReplacementNamed(
+            context, 
+            '/avances',
+            arguments: userId, // Pasar el ID del usuario
+          );
           break;
         case 2:
           Navigator.pushReplacementNamed(context, '/historial');
