@@ -8,6 +8,7 @@ class AppScaffoldWithNav extends StatefulWidget {
   final void Function(int) onNavTap;
   final VoidCallback onAddPressed;
   final List<Widget>? actions;
+  final Widget? appBarContent;
 
   const AppScaffoldWithNav({
     super.key,
@@ -17,6 +18,7 @@ class AppScaffoldWithNav extends StatefulWidget {
     required this.onNavTap,
     required this.onAddPressed,
     this.actions,
+    this.appBarContent,
   });
 
   @override
@@ -28,9 +30,11 @@ class _AppScaffoldWithNavState extends State<AppScaffoldWithNav> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.title),
-        backgroundColor: const Color(0xFF0078D4),
-        foregroundColor: Colors.white,
+        title: widget.appBarContent ?? Text(widget.title),
+        backgroundColor: widget.appBarContent != null ? Colors.white : const Color(0xFF0078D4),
+        foregroundColor: widget.appBarContent != null ? Colors.black : Colors.white,
+        elevation: widget.appBarContent != null ? 0 : null,
+        centerTitle: widget.appBarContent != null ? true : false,
         actions: widget.actions,
       ),
       body: widget.body,

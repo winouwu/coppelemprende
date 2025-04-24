@@ -43,9 +43,27 @@ class _HomeScreenState extends State<HomeScreen> {
   ];
 
   void _handleNavBarTap(int index) {
-    setState(() {
-      _currentIndex = index;
-    });
+    if (index != _currentIndex) {
+      // Navegar a la pantalla correspondiente según el índice
+      switch (index) {
+        case 0:
+          Navigator.pushReplacementNamed(context, '/registros');
+          break;
+        case 1:
+          Navigator.pushReplacementNamed(context, '/avances');
+          break;
+        case 2:
+          Navigator.pushReplacementNamed(context, '/historial');
+          break;
+        case 3:
+          Navigator.pushReplacementNamed(context, '/perfil');
+          break;
+        default:
+          setState(() {
+            _currentIndex = index;
+          });
+      }
+    }
   }
 
   void _handleAddPressed() {

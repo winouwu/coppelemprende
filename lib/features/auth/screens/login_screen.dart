@@ -59,8 +59,8 @@ class _LoginScreenState extends State<LoginScreen> {
       if (mounted) {
         if (response != null) {
           developer.log('Login exitoso. ID de usuario: ${response['id_usuario']}');
-          // Navegar a la pantalla de inicio en lugar de la de registro
-          Navigator.pushReplacementNamed(context, '/home');
+          // Navegar a la pantalla de registros en lugar de la de inicio
+          Navigator.pushReplacementNamed(context, '/registros');
         }
       }
     } catch (e) {
