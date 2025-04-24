@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import '../../../core/widgets/app_scaffold_with_nav.dart';
 import '../../../core/widgets/coppel_emprende_logo.dart';
+import '../services/microempresario_service.dart';
 import 'dart:developer' as developer;
 
 class RegistrosScreen extends StatefulWidget {
@@ -17,15 +18,31 @@ class RegistrosScreen extends StatefulWidget {
 }
 
 class _RegistrosScreenState extends State<RegistrosScreen> {
-  final _supabase = Supabase.instance.client;
+  final _microempresarioService = MicroempresarioService();
   bool _isLoading = true;
   List<Map<String, dynamic>> _microempresarios = [];
   String _error = '';
+  Map<String, dynamic>? _usuario;
 
   @override
   void initState() {
     super.initState();
-    _cargarMicroempresarios();
+    _cargarDatos();
+  }
+  
+  Future<void> _cargarDatos() async {
+    await _obtenerUsuario();
+    await _cargarMicroempresarios();
+  }
+  
+  Future<void> _obtenerUsuario() async {
+    try {
+      _usuario = await _microempresarioService.getUsuarioById(widget.userId);
+      developer.log('Usuario cargado: $_usuario');
+    } catch (e) {
+      developer.log('Error al cargar usuario: $e', error: e);
+      _error = 'Error al cargar información de usuario: $e';
+    }
   }
 
   Future<void> _cargarMicroempresarios() async {
@@ -37,15 +54,11 @@ class _RegistrosScreenState extends State<RegistrosScreen> {
     try {
       developer.log('Cargando microempresarios para usuario ID: ${widget.userId}');
       
-      final response = await _supabase
-          .from('microempresario')
-          .select('*, tipo_cliente(tipo)')
-          .eq('id_usuario_registro', widget.userId);
+      _microempresarios = await _microempresarioService.getMicroempresariosByUsuario(widget.userId);
       
-      developer.log('Microempresarios obtenidos: $response');
+      developer.log('Microempresarios cargados: ${_microempresarios.length}');
       
       setState(() {
-        _microempresarios = List<Map<String, dynamic>>.from(response);
         _isLoading = false;
       });
     } catch (e) {
@@ -63,17 +76,18 @@ class _RegistrosScreenState extends State<RegistrosScreen> {
     });
 
     try {
-      // Aquí implementaríamos la lógica para sincronizar los registros
-      // Por ahora simularemos un retraso
+      developer.log('Iniciando sincronización para usuario ID: ${widget.userId}');
+      
+      // Simulamos un proceso de sincronización
       await Future.delayed(const Duration(seconds: 2));
       
-      // Registrar la sincronización en historial_sincronizaciones
-      await _supabase.from('historial_sincronizaciones').insert({
-        'id_usuario': widget.userId,
-        'registros_enviados': _microempresarios.length,
-        'estado': 'completado',
-        'recompensa': _microempresarios.length * 10 // Ejemplo de cálculo de recompensa
-      });
+      // Registrar la sincronización
+      await _microempresarioService.registrarSincronizacion(
+        widget.userId,
+        _microempresarios.length,
+        'completado',
+        _microempresarios.length * 10 // Ejemplo de cálculo de recompensa
+      );
       
       // Recargar datos
       await _cargarMicroempresarios();
@@ -139,6 +153,12 @@ class _RegistrosScreenState extends State<RegistrosScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final usuarioInfo = _usuario != null 
+        ? 'ID: ${widget.userId} | Usuario: ${_usuario!['nombre'] ?? 'N/A'}'
+        : 'ID: ${widget.userId}';
+        
+    developer.log('Construyendo UI con usuario: $usuarioInfo');
+    
     return AppScaffoldWithNav(
       title: '',
       currentIndex: 0,
@@ -161,6 +181,13 @@ class _RegistrosScreenState extends State<RegistrosScreen> {
                     fontSize: 16,
                     fontWeight: FontWeight.bold,
                     color: Colors.black,
+                  ),
+                ),
+                Text(
+                  usuarioInfo,
+                  style: const TextStyle(
+                    fontSize: 12,
+                    color: Colors.grey,
                   ),
                 ),
                 const SizedBox(height: 12),

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'dart:developer' as developer;
+import '../../../features/registros/screens/registros_screen.dart';
 import 'register_screen.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -58,9 +59,16 @@ class _LoginScreenState extends State<LoginScreen> {
 
       if (mounted) {
         if (response != null) {
-          developer.log('Login exitoso. ID de usuario: ${response['id_usuario']}');
-          // Navegar a la pantalla de registros en lugar de la de inicio
-          Navigator.pushReplacementNamed(context, '/registros');
+          final userId = response['id_usuario'] as int;
+          developer.log('Login exitoso. ID de usuario: $userId');
+          
+          // Navegar a la pantalla de registros pasando el ID del usuario
+          Navigator.pushReplacement(
+            context, 
+            MaterialPageRoute(
+              builder: (context) => RegistrosScreen(userId: userId),
+            ),
+          );
         }
       }
     } catch (e) {
