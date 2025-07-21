@@ -45,10 +45,6 @@ CoppelEmprende es una plataforma destinada a facilitar el registro, seguimiento 
      ```dart
      import 'package:supabase_flutter/supabase_flutter.dart';
 
-     final supabase = Supabase.instance.client;
-  static const String supabaseUrl = "https://pnrddyhxrrsazzxupotf.supabase.co";
-  static const String supabaseAnonKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBucmRkeWh4cnJzYXp6eHVwb3RmIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDQ5MTUyNTUsImV4cCI6MjA2MDQ5MTI1NX0.YsmGhV1PdcjdA7Oa93YilTWASYHvoYvnd_KMpSTSUiI";
-} 
      ```
 
 4. Ejecuta la aplicación:
